@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Questionários</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #2C3E50;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #ecf0f1;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        li:hover {
+            transform: translateY(-5px);
+        }
+
+        .questionario-info {
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        #ultimoQuestionario {
+            background-color: #e3f2fd;
+            border-left: 5px solid #3498db;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        #todosQuestionariosPreview ul {
+            padding-left: 0;
+        }
+
+        .message {
+            text-align: center;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+<body>
+    <div class="container">
+        <h1>Gestão de Questionários</h1>
+
+        <h2>Último Questionário Preenchido</h2>
+        <div id="ultimoQuestionario">
+        </div>
+
+        <h2>Ações</h2>
+        <ul>
+            <li><a href="/questionario.html" target="_blank">Preencher Novo Questionário</a></li>
+            <li><a href="/todos-questionarios.html" target="_blank">Ver Todos os Questionários</a></li>
+        </ul>
+        <h2>Pré-visualização de Todos os Questionários</h2>
+        <div id="todosQuestionariosPreview">
+            <ul>
+                <!-- Lista de questionários será carregada aqui -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Carregar o último questionário preenchido
+        fetch('http://localhost:8080/questionario/ultimo')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('ultimoQuestionario');
+                container.innerHTML = `
+                    <p><strong>Nome:</strong> ${data.nome_completo}</p>
+                    <p><strong>Data de Nascimento:</strong> ${data.data_nascimento}</p>
+                    <p><strong>Contato de Emergência:</strong> ${data.contato_nome} (${data.contato_telefone})</p>
+                    <p><strong>Horas de Sono:</strong> ${data.horas_sono}</p>
+                `;
+            })
+            .catch(error => {
+                document.getElementById('ultimoQuestionario').innerHTML = 
+                    '<p>Não foi possível carregar o último questionário.</p>';
+                console.error(error);
+            });
+            fetch('http://localhost:8080/questionario')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('todosQuestionariosPreview').querySelector('ul');
+                if (data.length > 0) {
+                    data.forEach(q => {
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = `
+                            <strong>${q.nome_completo}</strong><br>
+                            <em>Contato: ${q.contato_nome} (${q.contato_telefone})</em><br>
+                            <small>Horas de Sono: ${q.horas_sono}</small>
+                        `;
+                        container.appendChild(listItem);
+                    });
+                } else {
+                    container.innerHTML = '<p>Não há questionários cadastrados.</p>';
+                }
+            })
+            .catch(error => {
+                document.getElementById('todosQuestionariosPreview').innerHTML = 
+                    '<p>Erro ao carregar a lista de questionários.</p>';
+                console.error(error);
+            });
+    </script>
+    <script src="js/script.js"></script>
+</body>
+</html>

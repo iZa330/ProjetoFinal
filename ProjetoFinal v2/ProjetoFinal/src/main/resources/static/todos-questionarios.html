@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todos os Questionários</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2C3E50;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+            color: #2C3E50;
+        }
+
+        td {
+            background-color: #fafafa;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f1f1f1;
+        }
+
+        .message {
+            text-align: center;
+            color: #e74c3c;
+            margin-top: 20px;
+        }
+
+        .message.success {
+            color: #2ecc71;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Todos os Questionários</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Data de Nascimento</th>
+                    <th>Contato</th>
+                    <th>Horas de Sono</th>
+                </tr>
+            </thead>
+            <tbody id="listaQuestionarios">
+                <!-- Questionários serão carregados aqui -->
+            </tbody>
+        </table>
+        <div class="message" id="error-message" style="display: none;">Erro ao carregar os questionários.</div>
+        <div class="message success" id="success-message" style="display: none;">Questionários carregados com sucesso.</div>
+    </div>
+
+    <script>
+        // Carregar todos os questionários preenchidos
+        fetch('http://localhost:8080/questionario')
+            .then(response => response.json())
+            .then(data => {
+                const tabela = document.getElementById('listaQuestionarios');
+                const successMessage = document.getElementById('success-message');
+                const errorMessage = document.getElementById('error-message');
+
+                // Exibir sucesso
+                successMessage.style.display = 'block';
+                errorMessage.style.display = 'none';
+
+                data.forEach(q => {
+                    const row = `
+                        <tr>
+                            <td>${q.nome_completo}</td>
+                            <td>${q.data_nascimento}</td>
+                            <td>${q.contato_nome} (${q.contato_telefone})</td>
+                            <td>${q.horas_sono}</td>
+                        </tr>
+                    `;
+                    tabela.innerHTML += row;
+                });
+            })
+            .catch(error => {
+                console.error('Erro ao carregar os questionários:', error);
+                const errorMessage = document.getElementById('error-message');
+                const successMessage = document.getElementById('success-message');
+
+                // Exibir erro
+                successMessage.style.display = 'none';
+                errorMessage.style.display = 'block';
+            });
+    </script>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

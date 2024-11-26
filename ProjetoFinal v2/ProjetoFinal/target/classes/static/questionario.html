@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionário</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <form id="questionarioForm" action="http://localhost:8080/questionario" method="POST" >
+        <header>
+            <h1>Questionário de Anamnese</h1>
+            <p>Por favor, preencha as informações abaixo para ajudar a planejar seus treinos.</p>
+        </header>
+        
+        <label for="nomeCompleto">01) Nome completo:</label>
+        <input type="text" id="nomeCompleto" name="nome_completo" required>
+
+        <label for="dataNascimento">02)Data de nascimento:</label>
+        <input type="date" id="dataNascimento" name="data_nascimento" required>
+
+        <label for="contatoNome">03) Nome de uma pessoa de confiança:</label>
+        <input type="text" id="contatoNome" name="contato_nome" required>
+
+        <label for="contatoTelefone"> 04) Telefone de contato confiança:</label>
+        <input type="tel" id="contatoTelefone" name="contato_telefone" 
+        placeholder="(XX) XXXXX-XXXX" 
+        pattern="\(\d{2}\) \d{4,5}-\d{4}" 
+        title="Digite no formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX" 
+        required>
+
+        <label for="horasTrabalho">05) Trabalha quantas horas por dia? (Sentada/em pé)</label>
+        <input type="number" id="horasTrabalho" name="horas_trabalho" required>
+
+        <label for="diasMusculacao">06) Quantos dias na semana pretende treinar musculação?</label>
+        <input type="number" id="diasMusculacao" name="dias_musculacao" 
+        placeholder="Em números"
+        required>
+
+        <label for="diasAerobico">07) Quantos dias na semana pretende realizar treino aeróbico?</label>
+        <input type="number" id="diasAerobico" name="dias_aerobico" 
+        placeholder="Em números"
+        required>
+
+        <label for="tempoMusculacao">08) Quanto tempo disponível para o treino da musculação?</label>
+        <input type="number" id="tempoMusculacao" name="tempo_musculacao" 
+        placeholder="Em números"
+        required>
+
+        <label for="tempoAerobico">09)Quanto tempo disponível para o treino aeróbico?</label>
+        <input type="number" id="tempoAerobico" name="tempo_aerobico" 
+        placeholder="Em números"
+        required>
+
+        <label for="temLesao">10) Tem ou teve alguma lesão?</label>
+        <select name="tem_lesao" id="temLesao" onchange="toggleInput('temLesao', 'detalhesLesao')">
+            <option value="nao">Não</option>
+            <option value="sim">Sim</option>
+        </select>
+        <input type="text" id="detalhesLesao" name="detalhes_lesao" placeholder="Descreva a lesão" style="display: none;">
+
+        <label for="fatorLimitante">11) Tem algum fator limitante (estrutural) identificado por algum médico?</label>
+        <textarea id="fatorLimitante" name="fator_limitante"></textarea>
+
+        <label for="fezCirurgia">12) Já fez alguma cirurgia que comprometa o movimento?</label>
+        <select name="fez_cirurgia" id="fezCirurgia" onchange="toggleInput('fezCirurgia', 'detalhesCirurgia')">
+            <option value="nao">Não</option>
+            <option value="sim">Sim</option>
+        </select>
+        <input type="text" id="detalhesCirurgia" name="detalhes_cirurgia" placeholder="Descreva a cirurgia" style="display: none;">
+
+        <label for="desconfortoDiario">13) Sente algum desconforto ao realizar esforço (subir escada, sentar-se e levantar-se)?</label>
+        <input type="text" id="desconfortoDiario" name="desconforto_diario">
+
+        
+        <label for="desconfortoExercicio">14) Sente desconforto em algum exercício da musculação?</label>
+        <input type="text" id="desconfortoExercicio" name="desconforto_exercicio">
+
+        
+        <label for="exerciciosFavoritos">15) Quais exercícios você mais gosta de realizar?</label>
+        <input type="text" id="exerciciosFavoritos" name="exercicios_favoritos">
+
+        <label for="gostaAlongamento">16) Gosta de exercícios de alongamento?</label>
+        <input type="text" id="gostaAlongamento" name="gosta_alongamento">
+
+        
+        <label for="fazDieta">17) Faz dieta?</label>
+        <select name="faz_dieta" id="fazDieta" onchange="toggleInput('fazDieta', 'detalhesDieta')">
+            <option value="nao">Não</option>
+            <option value="sim">Sim</option>
+        </select>
+        <input type="text" id="detalhesDieta" name="detalhes_dieta" placeholder="Descreva a dieta" style="display: none;">
+
+        
+        <label for="orientacaoNutricional">18) É com orientação de um nutricionista?</label>
+        <select name="orientacao_nutricional" id="orientacaoNutricional">
+            <option value="nao">Não</option>
+            <option value="sim">Sim</option>
+        </select>
+
+        
+        <label for="usoErgogenicos">19) Faz uso de ergogênicos?</label>
+        <select name="uso_ergogenicos" id="usoErgogenicos" onchange="toggleInput('usoErgogenicos', 'detalhesErgogenicos')">
+            <option value="nao">Não</option>
+            <option value="sim">Sim</option>
+        </select>
+        <input type="text" id="detalhesErgogenicos" name="detalhes_ergogenicos" placeholder="Detalhe os ergogênicos" style="display: none;">
+
+        
+        <label for="horasSono">20) Quantas horas de sono você costuma dormir?</label>
+        <input type="number" id="horasSono" name="horas_sono" required>
+
+        <button type="submit">Enviar Questionário</button>
+    </form>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
